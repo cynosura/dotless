@@ -6,24 +6,20 @@
 
     public class LessCssHttpHandler : IHttpHandler
     {
-        public IServiceLocator Container { get; set; }
-        public DotlessConfiguration Config { get; set; }
+        DotlessConfiguration Config;
+        LessHandlerImpl mHandlerImpl;
 
-        public LessCssHttpHandler()
-        {
+        public LessCssHttpHandler() {
             Config = new WebConfigConfigurationLoader().GetConfiguration();
-            Container = new ContainerFactory().GetLessContainer(Config);
+            mHandlerImpl = new ContainerFactory().GetLessContainer(Config)
+                .GetInstance<LessHandlerImpl>();
         }
 
-        public void ProcessRequest(HttpContext context)
-        {
-            var handler = Container.GetInstance<LessHandlerImpl>();
-            
-            handler.Execute();
+        public void ProcessRequest(HttpContext context) {
+            mHandlerImpl.Execute();
         }
 
-        public bool IsReusable
-        {
+        public bool IsReusable {
             get { return true; }
         }
     }

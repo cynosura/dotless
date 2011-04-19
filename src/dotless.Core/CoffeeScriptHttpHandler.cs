@@ -12,19 +12,17 @@ namespace dotless.Core
 
     class CoffeeScriptHttpHandler : IHttpHandler
     {
-        IServiceLocator mContainer;
         CoffeeScriptConfiguration mConfig;
+        CoffeeHandlerImpl mHandlerImpl;
 
         public CoffeeScriptHttpHandler() {
             mConfig = new WebConfigConfigurationLoader().GetCoffeeConfiguration();
-            mContainer = new ContainerFactory().GetCoffeeContainer(mConfig);
+            mHandlerImpl = new ContainerFactory().GetCoffeeContainer(mConfig)
+                .GetInstance<CoffeeHandlerImpl>();
         }
 
         public void ProcessRequest(HttpContext context) {
-            //var a = mContainer.GetInstance<LessHandlerImpl>();
-            var handler = mContainer.GetInstance<CoffeeHandlerImpl>();
-
-            handler.Execute();
+            mHandlerImpl.Execute();
         }
 
         public bool IsReusable {
