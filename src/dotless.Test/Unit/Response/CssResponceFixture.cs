@@ -18,7 +18,7 @@ namespace dotless.Test.Unit.Response
         [Test]
         public void ContentTypeIsTextCss()
         {
-            CssResponse.WriteCss(null);
+            CssResponse.WriteResponse(null);
 
             HttpResponse.VerifySet(r => r.ContentType = "text/css", Times.Once());
         }
@@ -28,7 +28,7 @@ namespace dotless.Test.Unit.Response
         {
             var str = "testing";
 
-            CssResponse.WriteCss(str);
+            CssResponse.WriteResponse(str);
 
             HttpResponse.Verify(r => r.Write(str), Times.Once());
         }
@@ -36,7 +36,7 @@ namespace dotless.Test.Unit.Response
         [Test]
         public void SetsCachabilityPublic()
         {
-            CssResponse.WriteCss(null);
+            CssResponse.WriteResponse(null);
 
             HttpCache.Verify(c => c.SetCacheability(HttpCacheability.Public), Times.Once());
         }
@@ -44,7 +44,7 @@ namespace dotless.Test.Unit.Response
         [Test]
         public void ResponseEndIsCalled()
         {
-            CssResponse.WriteCss(null);
+            CssResponse.WriteResponse(null);
 
             HttpResponse.Verify(r => r.End(), Times.Once());
         }

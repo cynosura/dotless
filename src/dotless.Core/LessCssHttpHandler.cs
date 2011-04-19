@@ -12,12 +12,12 @@
         public LessCssHttpHandler()
         {
             Config = new WebConfigConfigurationLoader().GetConfiguration();
-            Container = new ContainerFactory().GetContainer(Config);
+            Container = new ContainerFactory().GetLessContainer(Config);
         }
 
         public void ProcessRequest(HttpContext context)
         {
-            var handler = Container.GetInstance<HandlerImpl>();
+            var handler = Container.GetInstance<LessHandlerImpl>();
             
             handler.Execute();
         }

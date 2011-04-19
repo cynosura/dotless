@@ -1,17 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Configuration;
+using System.Xml;
+
 namespace dotless.Core.configuration
 {
-    using System;
-    using System.Configuration;
-    using System.Xml;
-
-    public class DotlessConfigurationSectionHandler : IConfigurationSectionHandler
+    class CoffeeConfigurationSectionHandler : IConfigurationSectionHandler
     {
         public object Create(object parent, object configContext, XmlNode section) {
-            var configuration = DotlessConfiguration.Default;
+            var configuration = CoffeeScriptConfiguration.DefaultWeb;
 
             try {
                 var interpreter = new XmlConfigurationInterpreter();
-                configuration = interpreter.Process(section);
+                //configuration = interpreter.Process(section);
             } catch (Exception) {
                 //TODO: Log the errormessage to somewhere
             }

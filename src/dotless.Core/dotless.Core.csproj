@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -85,6 +85,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoffeeScriptHttpHandler.cs" />
+    <Compile Include="CoffeeScript\CoffeeEngine.cs" />
+    <Compile Include="CoffeeScript\CoffeeHandlerImpl.cs" />
+    <Compile Include="CoffeeScript\ICoffeeEngine.cs" />
+    <Compile Include="configuration\CoffeeScriptConfiguration.cs" />
+    <Compile Include="configuration\CoffeeScriptConfigurationSectionHandler.cs" />
     <Compile Include="Loggers\AspNetTraceLogger.cs" />
     <Compile Include="Loggers\DiagnosticsLogger.cs" />
     <Compile Include="Loggers\NullLogger.cs" />
@@ -234,6 +240,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

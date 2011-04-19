@@ -13,7 +13,7 @@ namespace dotless.Core.Loggers
 
         protected override void Log(string message)
         {
-            Response.WriteCss(message);
+            Response.WriteResponse(message);
         }
     }
 }

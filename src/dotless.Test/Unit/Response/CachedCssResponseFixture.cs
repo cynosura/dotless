@@ -17,7 +17,7 @@ namespace dotless.Test.Unit.Response
         [Test]
         public void ContentTypeIsSetToTextCss()
         {
-            CachedCssResponse.WriteCss(null);
+            CachedCssResponse.WriteResponse(null);
 
             HttpResponse.VerifySet(r => r.ContentType = "text/css", Times.Once());
         }
@@ -25,7 +25,7 @@ namespace dotless.Test.Unit.Response
         [Test]
         public void ResponseEndIsCalled()
         {
-            CachedCssResponse.WriteCss(null);
+            CachedCssResponse.WriteResponse(null);
 
             HttpResponse.Verify(r => r.End(), Times.Once());
         }

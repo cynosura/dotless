@@ -17,6 +17,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -125,8 +126,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Site.less" />
+    <None Include="Content\subfolder\sample.coffee" />
     <None Include="Content\subfolder\test.less" />
-    <Content Include="Content\Web.config" />
+    <Content Include="Content\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dotless.Core\dotless.Core.csproj">

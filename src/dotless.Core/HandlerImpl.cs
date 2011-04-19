@@ -4,14 +4,20 @@ namespace dotless.Core
     using Input;
     using Response;
 
-    public class HandlerImpl
+    public abstract class HandlerBase
     {
-        public readonly IHttp Http;
-        public readonly IResponse Response;
-        public readonly ILessEngine Engine;
-        public readonly IFileReader FileReader;
+        public IHttp Http { get; protected set; }
+        public IResponse Response { get; protected set; }
+        public IFileReader FileReader { get; protected set; }
 
-        public HandlerImpl(IHttp http, IResponse response, ILessEngine engine, IFileReader fileReader)
+        public abstract void Execute();
+    }
+    
+    public class LessHandlerImpl : HandlerBase
+    {
+        public ILessEngine Engine { get; private set; }
+
+        public LessHandlerImpl(IHttp http, IResponse response, ILessEngine engine, IFileReader fileReader)
         {
             Http = http;
             Response = response;
@@ -19,13 +25,12 @@ namespace dotless.Core
             FileReader = fileReader;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             var localPath = Http.Context.Request.Url.LocalPath;
-
             var source = FileReader.GetFileContents(localPath);
 
-            Response.WriteCss(Engine.TransformToCss(source, localPath));
+            Response.WriteResponse(Engine.TransformToCss(source, localPath));
         }
     }
 }

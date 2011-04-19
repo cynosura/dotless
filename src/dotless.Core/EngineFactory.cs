@@ -16,7 +16,7 @@ namespace dotless.Core
 
         public ILessEngine GetEngine()
         {
-            var container = new ContainerFactory().GetContainer(Configuration);
+            var container = new ContainerFactory().GetLessContainer(Configuration);
             return container.GetInstance<ILessEngine>();
         }
     }

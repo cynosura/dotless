@@ -2,6 +2,6 @@ namespace dotless.Core.Response
 {
     public interface IResponse
     {
-        void WriteCss(string css);
+        void WriteResponse(string css);
     }
 }

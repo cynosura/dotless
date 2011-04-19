@@ -15,5 +15,16 @@ namespace dotless.Core.configuration
 
             return webconfig;
         }
+
+        public CoffeeScriptConfiguration GetCoffeeConfiguration() {
+            var webconfig = (CoffeeScriptConfiguration)ConfigurationManager.GetSection("coffee");
+
+            if (webconfig == null)
+                return CoffeeScriptConfiguration.DefaultWeb;
+
+            webconfig.Web = true;
+
+            return webconfig;
+        }
     }
 }

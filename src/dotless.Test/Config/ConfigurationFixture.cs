@@ -73,7 +73,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Web = true, CacheEnabled = true };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var cache = serviceLocator.GetInstance<ICache>();
 
@@ -85,7 +85,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Web = false, CacheEnabled = true };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var cache = serviceLocator.GetInstance<ICache>();
 
@@ -110,7 +110,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Logger = typeof(DummyLogger) };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var logger = serviceLocator.GetInstance<ILogger>();
 
@@ -122,7 +122,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { LessSource = typeof(DummyFileReader) };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var source = serviceLocator.GetInstance<IFileReader>();
 
@@ -134,7 +134,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Optimization = 7 };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var parser = serviceLocator.GetInstance<Parser>();
 
@@ -146,7 +146,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { LogLevel = LogLevel.Info };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var logger = serviceLocator.GetInstance<ILogger>();
 
@@ -162,7 +162,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Web = true };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var http1 = serviceLocator.GetInstance<IHttp>();
             var http2 = serviceLocator.GetInstance<IHttp>();
@@ -175,7 +175,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Web = true };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var response1 = serviceLocator.GetInstance<IResponse>();
             var response2 = serviceLocator.GetInstance<IResponse>();
@@ -193,7 +193,7 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Web = true, CacheEnabled = false };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
             var response1 = serviceLocator.GetInstance<IResponse>();
             var response2 = serviceLocator.GetInstance<IResponse>();
@@ -211,10 +211,10 @@ namespace dotless.Test.Config
         {
             var config = new DotlessConfiguration { Web = true };
 
-            var serviceLocator = new ContainerFactory().GetContainer(config);
+            var serviceLocator = new ContainerFactory().GetLessContainer(config);
 
-            var handler1 = serviceLocator.GetInstance<HandlerImpl>();
-            var handler2 = serviceLocator.GetInstance<HandlerImpl>();
+            var handler1 = serviceLocator.GetInstance<LessHandlerImpl>();
+            var handler2 = serviceLocator.GetInstance<LessHandlerImpl>();
 
             Assert.That(handler1, Is.Not.SameAs(handler2));
 

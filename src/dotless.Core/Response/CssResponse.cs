@@ -3,22 +3,25 @@ namespace dotless.Core.Response
     using System.Web;
     using Abstractions;
 
-    public class CssResponse : IResponse
+    public class CssResponse : ResponseBase
     {
-        public readonly IHttp Http;
-
-        public CssResponse(IHttp http)
+        public override string ContentType {
+            get { return "text/css"; }
+        }
+        
+        public CssResponse(IHttp http) : base(http)
         {
-            Http = http;
+        }
+    }
+
+    public class JavascriptResponse : ResponseBase
+    {
+        public override string ContentType {
+            get { return "text/javascript"; }
         }
 
-        public void WriteCss(string css)
-        {
-            var response = Http.Context.Response;
-            response.Cache.SetCacheability(HttpCacheability.Public);
-            response.ContentType = "text/css";
-            response.Write(css);
-            response.End();
+        public JavascriptResponse(IHttp http)
+            : base(http) {
         }
     }
 }
