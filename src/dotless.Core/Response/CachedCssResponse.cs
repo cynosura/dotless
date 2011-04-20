@@ -25,10 +25,10 @@
     
     public abstract class CachedResponseBase : ResponseBase
     {
-        public readonly int CacheAgeMinutes;
+        public readonly TimeSpan CacheAge;
 
-        protected CachedResponseBase(IHttp http, int cacheAge) : base(http) {
-            CacheAgeMinutes = cacheAge;
+        protected CachedResponseBase(IHttp http, TimeSpan cacheAge) : base(http) {
+            CacheAge = cacheAge;
         }
 
         public override void WriteResponse(string content) {
@@ -36,9 +36,9 @@
             var request = Http.Context.Request;
 
             response.Cache.SetCacheability(HttpCacheability.Public);
-            response.Cache.SetMaxAge(new TimeSpan(0, CacheAgeMinutes, 0));
+            response.Cache.SetMaxAge(CacheAge);
 
-            response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(CacheAgeMinutes));
+            response.Cache.SetExpires(DateTime.UtcNow.Add(CacheAge));
             response.Cache.SetETagFromFileDependencies();
 
             response.ContentType = ContentType;
@@ -71,7 +71,7 @@
         }
 
         public CachedCssResponse(IHttp http)
-            : base(http, 10080 /* 7 days */) {
+            : base(http, TimeSpan.FromDays(7)) {
         }
     }
 
@@ -82,7 +82,7 @@
         }
 
         public CachedJavascriptResponse(IHttp http)
-            : base(http, 10080 /* 7 days */) {
+            : base(http, TimeSpan.FromDays(7)) {
         }
     }
 }
