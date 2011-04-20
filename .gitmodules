@@ -1,0 +1,3 @@
+[submodule "lib/coffeescript"]
+	path = lib/coffeescript
+	url = http://github.com/alisey/CoffeeScript-Compiler-for-Windows.git
