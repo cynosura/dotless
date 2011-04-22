@@ -1,3 +1,28 @@
+###Update: 22/04/2011
+
+
+ - Support for Coffeescript Compiler 1.0.1 via [my fork](https://github.com/cynosura/CoffeeScript-Compiler-for-Windows) of the coffeeScript compiler for windows as a [git submodule](http://chrisjean.com/2009/04/20/git-submodules-adding-using-removing-and-updating/).
+ 
+    - To use .coffee files with the less library, modify your asp.net config thus:
+     <pre>
+     &lt;configSections&gt;
+...
+          &lt;section 
+              name="coffee" 
+              type="dotless.Core.configuration.CoffeeConfigurationSectionHandler,dotless.Core" /&gt;
+...
+     &lt;/configSections&gt;
+...
+     &lt;coffee
+           cache="true" 
+           compilerPath="../../lib/coffeescript/coffee/jshost.exe" 
+           compilerPattern="-u coffee-stdinout.js" /&gt;
+
+     </pre>
+
+     The sample project shows this in action.  Tested on VS2010
+
+
 Just Want a .dll?
 =================
 
