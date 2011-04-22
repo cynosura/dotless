@@ -88,9 +88,9 @@ namespace dotless.Core
             //pandora.Service<ILessEngine>()
             //    .Implementor<ParameterDecorator>().Lifestyle.Transient();
 
-            //if (configuration.CacheEnabled)
-            //    pandora.Service<ILessEngine>()
-            //        .Implementor<CacheDecorator>().Lifestyle.Transient();
+            if (configuration.CacheEnabled)
+                pandora.Service<ICoffeeEngine>()
+                    .Implementor<CoffeeCacheDecorator>().Lifestyle.Transient();
 
             pandora.Service<ICoffeeEngine>()
                 .Implementor<CoffeeEngine>()

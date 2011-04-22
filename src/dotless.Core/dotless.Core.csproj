@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoffeeScriptHttpHandler.cs" />
+    <Compile Include="CoffeeScript\CoffeeCacheDecorator.cs" />
     <Compile Include="CoffeeScript\CoffeeEngine.cs" />
     <Compile Include="CoffeeScript\CoffeeHandlerImpl.cs" />
     <Compile Include="CoffeeScript\ICoffeeEngine.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Stylizers\IStylizer.cs" />
     <Compile Include="Stylizers\PlainStylizer.cs" />
     <Compile Include="Utils\Guard.cs" />
+    <Compile Include="Utils\HashUtils.cs" />
     <Compile Include="Utils\HslColor.cs" />
     <Compile Include="Utils\NodeHelper.cs" />
     <Compile Include="Utils\NumberExtensions.cs" />

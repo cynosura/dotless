@@ -25,8 +25,9 @@ namespace dotless.Core
 
         public string TransformToCss(string source, string fileName) {
             //Compute Cache Key
-            var hash = ComputeContentHash(source);
+            var hash = dotless.Core.Utils.HashUtils.ComputeMD5(source);
             var cacheKey = fileName + hash;
+            
             if (!Cache.Exists(cacheKey)) {
                 Logger.Debug(String.Format("Inserting cache entry for {0}", cacheKey));
 
@@ -41,12 +42,7 @@ namespace dotless.Core
             return Cache.Retrieve(cacheKey);
         }
 
-        private string ComputeContentHash(string source) {
-            using (MD5 md5 = MD5.Create()) {
-                byte[] computeHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(source));
-                return Convert.ToBase64String(computeHash);
-            }
-        }
+        
 
         public IEnumerable<string> GetImports() {
             return Underlying.GetImports();

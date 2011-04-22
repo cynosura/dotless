@@ -7,7 +7,6 @@ namespace dotless.Core.CoffeeScript
     using System.Text;
     using System.IO;
 
-    // http://stackoverflow.com/questions/1540658/net-asynchronous-stream-read-write
     public static class StreamExtensions
     {
         private const int DEFAULT_BUFFER_SIZE = short.MaxValue; // +32767
@@ -16,6 +15,7 @@ namespace dotless.Core.CoffeeScript
             return;
         }
 
+        // http://stackoverflow.com/questions/1540658/net-asynchronous-stream-read-write
         public static void CopyTo(this Stream input, Stream output, int bufferSize) {
             if (!input.CanRead) throw new InvalidOperationException("input must be open for reading");
             if (!output.CanWrite) throw new InvalidOperationException("output must be open for writing");
@@ -66,6 +66,44 @@ namespace dotless.Core.CoffeeScript
 
             // return to the caller ;
             return;
+        }
+
+        // http://stackoverflow.com/questions/1080442/how-to-convert-an-stream-into-a-byte-in-c
+        public static byte[] ReadToEnd(this System.IO.Stream stream) {
+            long originalPosition = stream.Position;
+            stream.Position = 0;
+
+            try {
+                byte[] readBuffer = new byte[4096];
+
+                int totalBytesRead = 0;
+                int bytesRead;
+
+                while ((bytesRead = stream.Read(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)) > 0) {
+                    totalBytesRead += bytesRead;
+
+                    if (totalBytesRead == readBuffer.Length) {
+                        int nextByte = stream.ReadByte();
+                        if (nextByte != -1) {
+                            byte[] temp = new byte[readBuffer.Length * 2];
+                            Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
+                            Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
+                            readBuffer = temp;
+                            totalBytesRead++;
+                        }
+                    }
+                }
+
+                byte[] buffer = readBuffer;
+
+                if (readBuffer.Length != totalBytesRead) {
+                    buffer = new byte[totalBytesRead];
+                    Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
+                }
+                return buffer;
+            } finally {
+                stream.Position = originalPosition;
+            }
         }
     }
 }

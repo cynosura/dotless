@@ -26,7 +26,7 @@ namespace dotless.Core.CoffeeScript
             string path = mResolver.GetFullPath(localPath);
 
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read)) {
-                Response.WriteResponse(mEngine.TransformToJavaScript(fs, localPath));
+                Response.WriteResponse(mEngine.TransformToJavaScript(fs, File.GetLastWriteTimeUtc(path), localPath));
             }
         }
     }

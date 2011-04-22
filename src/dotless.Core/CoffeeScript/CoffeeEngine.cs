@@ -19,7 +19,7 @@ namespace dotless.Core.CoffeeScript
             mCompilerPath = compilerPath;
         }
 
-        public string TransformToJavaScript(Stream source, string fileName) {
+        public string TransformToJavaScript(Stream source, DateTime modified, string resourcePath) {
             string result = String.Empty;
             
             if (mStartInfo == null) {
@@ -45,6 +45,8 @@ namespace dotless.Core.CoffeeScript
                     p.Start();
                     p.PriorityClass = ProcessPriorityClass.BelowNormal;
 
+                    System.Threading.Thread.Sleep(200);
+
                     source.CopyTo(p.StandardInput.BaseStream);
 
                     if (p.WaitForExit(20000)) {
@@ -54,10 +56,10 @@ namespace dotless.Core.CoffeeScript
                             result = p.StandardError.ReadToEnd();
                         }
                     } else
-                        result = String.Format("Error compiling {0}: time-out", fileName);
+                        result = String.Format("Error compiling {0}: time-out", resourcePath);
                 }
             } catch (Exception ex) {
-                result = String.Format("Error parsing {0}: {1}", fileName, ex.ToString());
+                result = String.Format("Error parsing {0}: {1}", resourcePath, ex.ToString());
             }
 
             return result;
