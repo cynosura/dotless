@@ -85,9 +85,6 @@ namespace dotless.Core
             pandora.Service<string>("compiler-path")
                 .Instance(configuration.CompilerPath);
 
-            //pandora.Service<ILessEngine>()
-            //    .Implementor<ParameterDecorator>().Lifestyle.Transient();
-
             if (configuration.CacheEnabled)
                 pandora.Service<ICoffeeEngine>()
                     .Implementor<CoffeeCacheDecorator>().Lifestyle.Transient();
