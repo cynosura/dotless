@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace dotless.Core.CoffeeScript
 {
-    public interface ICoffeeEngine
-    {
-        string TransformToJavaScript(string source, string fileName);
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.IO;
+
+    public interface ICoffeeEngine {
+        string TransformToJavaScript(Stream source, string fileName);
     }
 }

@@ -1,4 +1,4 @@
-﻿# Assignment:
+# Assignment:
 number   = 42
 opposite = true
 
@@ -26,3 +26,6 @@ alert "I knew it!" if elvis?
 
 # Array comprehensions:
 cubes = (math.cube num for num in list)
+
+# Hello
+alert "Hello, World!"

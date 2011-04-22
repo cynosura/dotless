@@ -89,6 +89,7 @@
     <Compile Include="CoffeeScript\CoffeeEngine.cs" />
     <Compile Include="CoffeeScript\CoffeeHandlerImpl.cs" />
     <Compile Include="CoffeeScript\ICoffeeEngine.cs" />
+    <Compile Include="CoffeeScript\System.IO.Stream.Extensions.cs" />
     <Compile Include="configuration\CoffeeScriptConfiguration.cs" />
     <Compile Include="configuration\CoffeeScriptConfigurationSectionHandler.cs" />
     <Compile Include="Loggers\AspNetTraceLogger.cs" />

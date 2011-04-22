@@ -4,27 +4,29 @@ namespace dotless.Core.configuration
 
     public class WebConfigConfigurationLoader
     {
+        DotlessConfiguration mDotConfigCache;
         public DotlessConfiguration GetConfiguration()
         {
-            var webconfig = (DotlessConfiguration)ConfigurationManager.GetSection("dotless");
-            
-            if (webconfig == null)
-                return DotlessConfiguration.DefaultWeb;
+            if (mDotConfigCache == null) {
+                mDotConfigCache = (DotlessConfiguration)ConfigurationManager.GetSection("dotless");
 
-            webconfig.Web = true;
+                if (mDotConfigCache == null)
+                    mDotConfigCache =  DotlessConfiguration.DefaultWeb;
+            }
 
-            return webconfig;
+            return mDotConfigCache;
         }
 
+        CoffeeScriptConfiguration mCoffeeConfiguration;
         public CoffeeScriptConfiguration GetCoffeeConfiguration() {
-            var webconfig = (CoffeeScriptConfiguration)ConfigurationManager.GetSection("coffee");
+            if (mCoffeeConfiguration == null) {
+                mCoffeeConfiguration = (CoffeeScriptConfiguration)ConfigurationManager.GetSection("coffee");
 
-            if (webconfig == null)
-                return CoffeeScriptConfiguration.DefaultWeb;
+                if (mCoffeeConfiguration == null)
+                    mCoffeeConfiguration = CoffeeScriptConfiguration.DefaultWeb;
+            }
 
-            webconfig.Web = true;
-
-            return webconfig;
+            return mCoffeeConfiguration;
         }
     }
 }

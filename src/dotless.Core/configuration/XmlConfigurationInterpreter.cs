@@ -3,25 +3,76 @@ namespace dotless.Core.configuration
     using System;
     using System.Xml;
     using Loggers;
+    using System.IO;
 
-    public class XmlConfigurationInterpreter
+    public class CoffeeConfigurationInterpreter : XmlConfigurationInterpreter<CoffeeScriptConfiguration>
     {
-        public DotlessConfiguration Process(XmlNode section)
-        {
+        public override CoffeeScriptConfiguration Process(XmlNode section) {
+            var @default = CoffeeScriptConfiguration.DefaultWeb;
+            var result = new CoffeeScriptConfiguration();
+
+            result.MinifyOutput =
+                GetBoolValue(section, "minify") ?? @default.MinifyOutput;
+
+            result.CacheEnabled =
+                GetBoolValue(section, "cache") ?? @default.CacheEnabled;
+
+            result.Optimization =
+                GetIntValue(section, "optimization") ?? @default.Optimization;
+
+            result.CompilePattern = 
+                GetStringValue(section, "compilerPattern") ?? @default.CompilePattern;
+
+            result.CompilerPath =
+                GetStringValue(section, "compilerPath") ?? @default.CompilerPath;
+
+            var logLevel = GetStringValue(section, "log") ?? "default";
+            switch (logLevel.ToLowerInvariant()) {
+                case "info":
+                    result.LogLevel = LogLevel.Info;
+                    break;
+                case "debug":
+                    result.LogLevel = LogLevel.Debug;
+                    break;
+                case "warn":
+                    result.LogLevel = LogLevel.Warn;
+                    break;
+                case "error":
+                    result.LogLevel = LogLevel.Error;
+                    break;
+                case "default":
+                    break;
+                default:
+                    break;
+            }
+
+            var source = GetTypeValue(section, "source");
+            
+            if (source != null)
+                result.LessSource = source;
+
+            result.Logger = GetTypeValue(section, "logger");
+
+            return result;
+        }
+    }
+    
+    public class LessConfigurationInterpreter : XmlConfigurationInterpreter<DotlessConfiguration>
+    {
+        public override DotlessConfiguration Process(XmlNode section) {
             var dotlessConfiguration = DotlessConfiguration.DefaultWeb;
 
-            dotlessConfiguration.MinifyOutput = 
-                GetBoolValue(section, "minifyCss") ?? dotlessConfiguration.MinifyOutput;
-            
-            dotlessConfiguration.CacheEnabled = 
+            dotlessConfiguration.MinifyOutput =
+                GetBoolValue(section, "minify") ?? dotlessConfiguration.MinifyOutput;
+
+            dotlessConfiguration.CacheEnabled =
                 GetBoolValue(section, "cache") ?? dotlessConfiguration.CacheEnabled;
-            
-            dotlessConfiguration.Optimization = 
+
+            dotlessConfiguration.Optimization =
                 GetIntValue(section, "optimization") ?? dotlessConfiguration.Optimization;
 
             var logLevel = GetStringValue(section, "log") ?? "default";
-            switch (logLevel.ToLowerInvariant())
-            {
+            switch (logLevel.ToLowerInvariant()) {
                 case "info":
                     dotlessConfiguration.LogLevel = LogLevel.Info;
                     break;
@@ -36,7 +87,7 @@ namespace dotless.Core.configuration
                     break;
                 case "default":
                     break;
-                default: 
+                default:
                     break;
             }
 
@@ -48,9 +99,13 @@ namespace dotless.Core.configuration
 
             return dotlessConfiguration;
         }
+    }
+    
+    public abstract class XmlConfigurationInterpreter<T>
+    {
+        public abstract T Process(XmlNode section);
 
-        private static string GetStringValue(XmlNode section, string property)
-        {
+        protected static string GetStringValue(XmlNode section, string property) {
             var attribute = section.Attributes[property];
 
             if (attribute == null)
@@ -59,8 +114,7 @@ namespace dotless.Core.configuration
             return attribute.Value;
         }
 
-        private static int? GetIntValue(XmlNode section, string property)
-        {
+        protected static int? GetIntValue(XmlNode section, string property) {
             var attribute = section.Attributes[property];
 
             if (attribute == null)
@@ -73,8 +127,7 @@ namespace dotless.Core.configuration
             return null;
         }
 
-        private static bool? GetBoolValue(XmlNode section, string property)
-        {
+        protected static bool? GetBoolValue(XmlNode section, string property) {
             var attribute = section.Attributes[property];
 
             if (attribute == null)
@@ -87,8 +140,7 @@ namespace dotless.Core.configuration
             return null;
         }
 
-        private static Type GetTypeValue(XmlNode section, string property)
-        {
+        protected static Type GetTypeValue(XmlNode section, string property) {
             var attribute = section.Attributes[property];
 
             if (attribute == null)

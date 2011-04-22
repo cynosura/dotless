@@ -3,6 +3,7 @@ namespace dotless.Core
     using Abstractions;
     using Cache;
     using configuration;
+    using dotless.Core.CoffeeScript;
     using Input;
     using Loggers;
     using Microsoft.Practices.ServiceLocation;
@@ -11,7 +12,7 @@ namespace dotless.Core
     using Parameters;
     using Response;
     using Stylizers;
-    using dotless.Core.CoffeeScript;
+    using System.IO;
 
     public class ContainerFactory
     {
@@ -66,7 +67,9 @@ namespace dotless.Core
                 .Implementor<HttpCache>().Lifestyle.Transient();
 
             pandora.Service<ILogger>()
-                .Implementor<AspResponseLogger>().Parameters("level").Set("error-level").Lifestyle.Transient();
+                .Implementor<AspResponseLogger>()
+                    .Parameters("level").Set("error-level")
+                .Lifestyle.Transient();
 
             pandora.Service<IPathResolver>()
                 .Implementor<AspServerPathResolver>().Lifestyle.Transient();
@@ -75,6 +78,12 @@ namespace dotless.Core
         private void RegisterCoreServices(FluentRegistration pandora, CoffeeScriptConfiguration configuration) {
             pandora.Service<LogLevel>("error-level")
                 .Instance(configuration.LogLevel);
+
+            pandora.Service<string>("compiler-args")
+                .Instance(configuration.CompilePattern);
+
+            pandora.Service<string>("compiler-path")
+                .Instance(configuration.CompilerPath);
 
             //pandora.Service<ILessEngine>()
             //    .Implementor<ParameterDecorator>().Lifestyle.Transient();
@@ -85,7 +94,8 @@ namespace dotless.Core
 
             pandora.Service<ICoffeeEngine>()
                 .Implementor<CoffeeEngine>()
-                    .Parameters("compress").Set("minify-output")
+                    .Parameters("compilerPath").Set("compiler-path")
+                    .Parameters("compilerArguments").Set("compiler-args")
                 .Lifestyle.Transient();
 
             //pandora.Service<bool>("minify-output").Instance(configuration.MinifyOutput);
@@ -152,14 +162,19 @@ namespace dotless.Core
             pandora.Service<LogLevel>("error-level")
                 .Instance(configuration.LogLevel);
 
+            pandora.Service<int>("default-optimization")
+                .Instance(configuration.Optimization);
+
+            pandora.Service<bool>("minify-output")
+                .Instance(configuration.MinifyOutput);
+
             pandora.Service<IStylizer>()
                 .Implementor<PlainStylizer>();
 
             pandora.Service<Parser.Parser>()
-                .Implementor<Parser.Parser>().Parameters("optimization").Set("default-optimization").Lifestyle.Transient();
-
-            pandora.Service<int>("default-optimization")
-                .Instance(configuration.Optimization);
+                .Implementor<Parser.Parser>()
+                    .Parameters("optimization").Set("default-optimization")
+                .Lifestyle.Transient();
 
             pandora.Service<ILessEngine>()
                 .Implementor<ParameterDecorator>().Lifestyle.Transient();
@@ -169,9 +184,9 @@ namespace dotless.Core
                     .Implementor<CacheDecorator>().Lifestyle.Transient();
 
             pandora.Service<ILessEngine>()
-                .Implementor<LessEngine>().Parameters("compress").Set("minify-output").Lifestyle.Transient();
-
-            pandora.Service<bool>("minify-output").Instance(configuration.MinifyOutput);
+                .Implementor<LessEngine>()
+                    .Parameters("compress").Set("minify-output")
+                .Lifestyle.Transient();
 
             pandora.Service<IFileReader>()
                 .Implementor(configuration.LessSource);

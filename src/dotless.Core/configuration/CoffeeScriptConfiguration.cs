@@ -9,20 +9,16 @@ namespace dotless.Core.configuration
 
     public class CoffeeScriptConfiguration : DotlessConfiguration
     {
-        public static new readonly CoffeeScriptConfiguration DefaultWeb = new CoffeeScriptConfiguration();
+        public static new readonly CoffeeScriptConfiguration DefaultWeb = 
+            new CoffeeScriptConfiguration();
         
         public CoffeeScriptConfiguration() {
-            CompilePattern = "{0} {1}";
+            CompilePattern = "";
+            CompilerPath = "";
         }
         
-        public FileInfo Compiler { get; set; }
-        public FileInfo CoffeeScriptSrc { get; set; }
+        public string CompilerPath { get; set; }
         public string CompilePattern { get; set;}
 
-        public bool IsValid() {
-            return Compiler != null && Compiler.Exists &&
-                   CoffeeScriptSrc != null && CoffeeScriptSrc.Exists &&
-                   !String.IsNullOrEmpty(CompilePattern);
-        }
     }
 }

@@ -13,8 +13,8 @@ namespace dotless.Core.configuration
             var configuration = CoffeeScriptConfiguration.DefaultWeb;
 
             try {
-                var interpreter = new XmlConfigurationInterpreter();
-                //configuration = interpreter.Process(section);
+                var interpreter = new CoffeeConfigurationInterpreter();
+                configuration = interpreter.Process(section);
             } catch (Exception) {
                 //TODO: Log the errormessage to somewhere
             }

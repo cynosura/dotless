@@ -10,7 +10,7 @@ namespace dotless.Core.configuration
             var configuration = DotlessConfiguration.Default;
 
             try {
-                var interpreter = new XmlConfigurationInterpreter();
+                var interpreter = new LessConfigurationInterpreter();
                 configuration = interpreter.Process(section);
             } catch (Exception) {
                 //TODO: Log the errormessage to somewhere
