@@ -1,3 +1,4 @@
+
 ###Update: 22/04/2011
 
 
@@ -22,7 +23,11 @@
 
      The sample project shows this in action.  Tested on VS2010
 
-
+    - Tip: to load the coffeescript submodule, issue the following commands:
+	
+         `git submodule init`
+         `git submodule update`
+	 
 Just Want a .dll?
 =================
 
