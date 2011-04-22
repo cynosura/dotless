@@ -6,6 +6,7 @@ namespace dotless.Core.CoffeeScript
     using System.Diagnostics;
     using dotless.Core.Abstractions;
     using System.Runtime.CompilerServices;
+    using dotless.Core.Input;
 
     class CoffeeEngine : ICoffeeEngine
     {
@@ -14,9 +15,15 @@ namespace dotless.Core.CoffeeScript
 
         ProcessStartInfo mStartInfo;
 
-        public CoffeeEngine(IHttp pathResolver, string compilerPath, string compilerArguments) {
+        public CoffeeEngine(IPathResolver pathResolver, string compilerPath, string compilerArguments) {
             mCompilerArguments = compilerArguments;
-            mCompilerPath = compilerPath;
+
+            if (Path.IsPathRooted(compilerPath)) {
+                mCompilerPath = compilerPath;
+            } else {
+                var root = pathResolver.GetFullPath("/");
+                mCompilerPath = Path.Combine(root, compilerPath);
+            }
         }
 
         public string TransformToJavaScript(Stream source, DateTime modified, string resourcePath) {

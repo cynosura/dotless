@@ -76,14 +76,14 @@ namespace dotless.Core
         }
 
         private void RegisterCoreServices(FluentRegistration pandora, CoffeeScriptConfiguration configuration) {
+            pandora.Service<string>("compiler-path")
+                .Instance(configuration.CompilerPath);
+
             pandora.Service<LogLevel>("error-level")
                 .Instance(configuration.LogLevel);
 
             pandora.Service<string>("compiler-args")
                 .Instance(configuration.CompilePattern);
-
-            pandora.Service<string>("compiler-path")
-                .Instance(configuration.CompilerPath);
 
             if (configuration.CacheEnabled)
                 pandora.Service<ICoffeeEngine>()
