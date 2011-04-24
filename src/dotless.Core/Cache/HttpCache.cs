@@ -11,33 +11,27 @@ namespace dotless.Core.Cache
         private readonly IHttp _http;
         public IPathResolver PathResolver { get; set; }
 
-        public HttpCache(IHttp http, IPathResolver pathResolver)
-        {
+        public HttpCache(IHttp http, IPathResolver pathResolver) {
             _http = http;
             PathResolver = pathResolver;
         }
 
-        public void Insert(string cacheKey, IEnumerable<string> fileDependancies, string css)
-        {
+        public void Insert(string cacheKey, IEnumerable<string> fileDependancies, string css) {
             var fullPaths = fileDependancies.Select(f => PathResolver.GetFullPath(f)).ToArray();
-
             var cache = GetCache();
 
             cache.Insert(cacheKey, css, new CacheDependency(fullPaths));
         }
 
-        public bool Exists(string filename)
-        {
+        public bool Exists(string filename) {
             return Retrieve(filename) != null;
         }
 
-        public string Retrieve(string filename)
-        {
+        public string Retrieve(string filename) {
             return (string)GetCache()[filename];
         }
 
-        private Cache GetCache()
-        {
+        private Cache GetCache() {
             return _http.Context.Cache;
         }
     }
